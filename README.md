@@ -127,6 +127,76 @@ npm run web
 npm run lint
 ```
 
+## 📦 APK Download & Installation
+
+### Quick Start - Download APK
+
+**Direct Download:** [CarDrive-v1.0.0.apk](https://github.com/BimsaraWickramanayaka/CarDrive_Creavint_app/raw/main/releases/CarDrive-v1.0.0.apk)
+
+**Alternative:** Download from [Releases](https://github.com/BimsaraWickramanayaka/CarDrive_Creavint_app/releases)
+
+### How to Install APK on Android
+
+#### **Option 1: Direct Installation (Recommended)**
+
+1. **Download APK**
+   - Click the download link above or go to Releases
+   - Save the `CarDrive-v1.0.0.apk` file to your device
+
+2. **Enable Installation from Unknown Sources**
+   - Go to Settings → Security
+   - Enable "Unknown Sources" or "Install unknown apps"
+   - (This varies by Android version)
+
+3. **Install the APK**
+   - Open your file manager
+   - Navigate to Downloads folder
+   - Tap on `CarDrive-v1.0.0.apk`
+   - Tap "Install"
+   - Wait for installation to complete
+
+4. **Launch the App**
+   - Open your Apps drawer
+   - Find and tap "CarDrive"
+   - Enjoy! 🎉
+
+#### **Option 2: Using ADB (Advanced Users)**
+
+If you have Android SDK installed:
+
+```bash
+# Connect your Android device via USB
+# Enable USB Debugging in Settings → Developer Options
+
+adb install CarDrive-v1.0.0.apk
+```
+
+### System Requirements
+
+- **Android Version:** 5.0 or higher (API level 21+)
+- **RAM:** 2GB minimum (4GB recommended)
+- **Storage:** ~150MB free space
+- **Permissions Required:**
+  - Camera (for photo upload)
+  - Phone (for calling)
+  - Storage (for file access)
+
+### First Time Setup
+
+1. **Splash Screen** - You'll see the CarDrive logo (2.5 seconds)
+2. **Login Screen** - Create account or login with:
+   - Email and password
+   - Google account
+   - Facebook account
+3. **Home Screen** - Start browsing vehicles immediately
+
+### Demo Credentials (If Needed)
+
+- **Email:** demo@cardrive.com
+- **Password:** demo123
+
+**Note:** This is a demo app. All data is locally stored and resets when you reinstall.
+
 ## 📁 Project Structure
 
 ```

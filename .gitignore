@@ -45,7 +45,6 @@ app-example
 # Build outputs
 build/
 dist/
-*.apk
 *.aab
 *.aar
 .eas/
