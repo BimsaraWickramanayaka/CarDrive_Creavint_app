@@ -1,98 +1,297 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
-
-import { HelloWave } from '@/components/hello-wave';
-import ParallaxScrollView from '@/components/parallax-scroll-view';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { Link } from 'expo-router';
+import React, { useState } from "react";
+import {
+  Text,
+  View,
+  ScrollView,
+  TextInput,
+  TouchableOpacity,
+  Image,
+  StyleSheet,
+  FlatList,
+} from "react-native";
+import { MaterialIcons } from "@expo/vector-icons";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useRouter } from "expo-router";
 
 export default function HomeScreen() {
-  return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <Link href="/modal">
-          <Link.Trigger>
-            <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-          </Link.Trigger>
-          <Link.Preview />
-          <Link.Menu>
-            <Link.MenuAction title="Action" icon="cube" onPress={() => alert('Action pressed')} />
-            <Link.MenuAction
-              title="Share"
-              icon="square.and.arrow.up"
-              onPress={() => alert('Share pressed')}
-            />
-            <Link.Menu title="More" icon="ellipsis">
-              <Link.MenuAction
-                title="Delete"
-                icon="trash"
-                destructive
-                onPress={() => alert('Delete pressed')}
-              />
-            </Link.Menu>
-          </Link.Menu>
-        </Link>
+  const insets = useSafeAreaInsets();
+  const router = useRouter();
+  const [selectedCategory, setSelectedCategory] = useState("Tuk-tuk");
 
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+  const categories = [
+    { id: 1, name: "Tuk-tuk" },
+    { id: 2, name: "Cars" },
+    { id: 3, name: "Vans" },
+    { id: 4, name: "Bikes" },
+  ];
+
+  const vehicles = [
+    {
+      id: 1,
+      name: "Tuk-Tuk Auto",
+      price: "Rs. 500.00",
+      location: "Galle",
+      rating: 4.9,
+      image: require("../../assets/images/vehicles/tuktuk.jpg"),
+      type: "With driver",
+    },
+    {
+      id: 2,
+      name: "Toyota Prius",
+      price: "Rs. 5000.00",
+      location: "Kandy",
+      rating: 4.9,
+      image: require("../../assets/images/vehicles/prius.jpeg"),
+      type: "With driver",
+    },
+  ];
+
+  const renderVehicleCard = ({ item }: any) => (
+    <TouchableOpacity
+      style={styles.vehicleCard}
+      onPress={() => router.push(`../vehicledetails?id=${item.id}`)}
+      activeOpacity={0.7}
+    >
+      <Image source={item.image} style={styles.vehicleImage} />
+      <View style={styles.vehicleInfo}>
+        <View style={styles.vehicleHeader}>
+          <Text style={styles.vehicleName}>{item.name}</Text>
+          <View style={styles.driverBadge}>
+            <Text style={styles.driverText}>{item.type}</Text>
+          </View>
+        </View>
+        <Text style={styles.price}>{item.price}</Text>
+        <View style={styles.vehicleFooter}>
+          <View style={styles.locationRating}>
+            <MaterialIcons name="location-on" size={16} color="#17A697" />
+            <Text style={styles.location}>{item.location}</Text>
+            <MaterialIcons name="star" size={16} color="#FFA500" />
+            <Text style={styles.rating}>{item.rating}</Text>
+          </View>
+        </View>
+      </View>
+    </TouchableOpacity>
+  );
+
+  return (
+    <ScrollView style={[styles.container, { paddingTop: insets.top }]} showsVerticalScrollIndicator={false}>
+      {/* Header with Profile */}
+      <View style={styles.header}>
+        <View>
+          <Text style={styles.greeting}>Welcome to Sri Lanka</Text>
+          <Text style={styles.subGreeting}>Find your perfect ride</Text>
+        </View>
+        <Image
+          source={require("../../assets/images/profilepic.jpg")}
+          style={styles.profileImage}
+        />
+      </View>
+
+      {/* Search Bar and Filter */}
+      <View style={styles.searchContainer}>
+        <View style={styles.searchBar}>
+          <MaterialIcons name="search" size={20} color="#999" />
+          <TextInput
+            style={styles.searchInput}
+            placeholder="Search Vehicle..."
+            placeholderTextColor="#999"
+          />
+        </View>
+        <TouchableOpacity 
+          style={styles.filterButton}
+          onPress={() => router.push("../filter")}
+        >
+          <MaterialIcons name="tune" size={24} color="#000" />
+        </TouchableOpacity>
+      </View>
+
+      {/* Category Buttons */}
+      <View style={styles.categoriesContainer}>
+        {categories.map((category) => (
+          <TouchableOpacity
+            key={category.id}
+            style={[
+              styles.categoryButton,
+              selectedCategory === category.name && styles.categoryButtonActive,
+            ]}
+            onPress={() => setSelectedCategory(category.name)}
+          >
+            <Text
+              style={[
+                styles.categoryText,
+                selectedCategory === category.name && styles.categoryTextActive,
+              ]}
+            >
+              {category.name}
+            </Text>
+          </TouchableOpacity>
+        ))}
+      </View>
+
+      {/* Vehicle Cards */}
+      <View style={styles.vehiclesContainer}>
+        <FlatList
+          data={vehicles}
+          renderItem={renderVehicleCard}
+          keyExtractor={(item) => item.id.toString()}
+          scrollEnabled={false}
+        />
+      </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+  },
+  header: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingHorizontal: 20,
+    marginBottom: 20,
+    marginTop: 8,
+  },
+  greeting: {
+    fontSize: 24,
+    fontWeight: "bold",
+    color: "#000",
+  },
+  subGreeting: {
+    fontSize: 14,
+    color: "#666",
+    marginTop: 4,
+  },
+  profileImage: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+  },
+  searchContainer: {
+    flexDirection: "row",
+    paddingHorizontal: 20,
+    marginBottom: 16,
+    alignItems: "center",
+    gap: 12,
+  },
+  searchBar: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#E8F5F3",
+    borderRadius: 25,
+    paddingHorizontal: 16,
+    height: 44,
+  },
+  searchInput: {
+    flex: 1,
+    marginLeft: 8,
+    color: "#000",
+    fontSize: 14,
+  },
+  filterButton: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: "#E8F5F3",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  categoriesContainer: {
+    flexDirection: "row",
+    paddingHorizontal: 20,
+    marginBottom: 20,
     gap: 8,
   },
-  stepContainer: {
-    gap: 8,
+  categoryButton: {
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 20,
+    backgroundColor: "#E8F5F3",
+  },
+  categoryButtonActive: {
+    backgroundColor: "#17A697",
+  },
+  categoryText: {
+    color: "#666",
+    fontSize: 14,
+    fontWeight: "500",
+  },
+  categoryTextActive: {
+    color: "#fff",
+  },
+  vehiclesContainer: {
+    paddingHorizontal: 20,
+    paddingBottom: 20,
+  },
+  vehicleCard: {
+    marginBottom: 16,
+    borderRadius: 16,
+    overflow: "hidden",
+    backgroundColor: "#F9F9F9",
+    elevation: 2,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+  },
+  vehicleImage: {
+    width: "100%",
+    height: 180,
+    resizeMode: "cover",
+  },
+  vehicleInfo: {
+    padding: 12,
+  },
+  vehicleHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     marginBottom: 8,
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  vehicleName: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#000",
+  },
+  driverBadge: {
+    backgroundColor: "#E8F5F3",
+    paddingHorizontal: 12,
+    paddingVertical: 4,
+    borderRadius: 12,
+  },
+  driverText: {
+    fontSize: 12,
+    color: "#17A697",
+    fontWeight: "500",
+  },
+  price: {
+    fontSize: 14,
+    fontWeight: "bold",
+    color: "#000",
+    marginBottom: 8,
+  },
+  vehicleFooter: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  locationRating: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 4,
+  },
+  location: {
+    fontSize: 12,
+    color: "#17A697",
+    fontWeight: "500",
+    marginRight: 8,
+  },
+  rating: {
+    fontSize: 12,
+    color: "#000",
+    fontWeight: "500",
   },
 });
