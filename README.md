@@ -133,7 +133,7 @@ npm run lint
 
 **Direct Download:** [CarDrive-v1.0.0.apk](https://github.com/BimsaraWickramanayaka/CarDrive_Creavint_app/raw/main/releases/CarDrive-v1.0.0.apk)
 
-**Alternative:** Download from [Releases](https://github.com/BimsaraWickramanayaka/CarDrive_Creavint_app/releases)
+<!-- **Alternative:** Download from [Releases](https://github.com/BimsaraWickramanayaka/CarDrive_Creavint_app/releases) -->
 
 ### How to Install APK on Android
 
@@ -309,9 +309,9 @@ CarDrive_Creavint_app/
 - Fast workflows for key actions
 - Clear visual hierarchy
 
-## 📖 Additional Documentation
+<!-- ## 📖 Additional Documentation
 
-For comprehensive UX/UI documentation, design decisions, and navigation flows, see **[UX_SUMMARY.md](./UX_SUMMARY.md)**
+For comprehensive UX/UI documentation, design decisions, and navigation flows, see **[UX_SUMMARY.md](./UX_SUMMARY.md)** -->
 
 ## 🌐 Deployment
 
